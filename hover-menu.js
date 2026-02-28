@@ -115,8 +115,11 @@
     });
 
     var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    var debug = activeDropdown && activeDropdown.debug;
     path.setAttribute("d", pathD);
-    path.setAttribute("fill", "transparent");
+    path.setAttribute("fill", debug ? "rgba(255, 0, 0, 0.25)" : "transparent");
+    path.setAttribute("stroke", debug ? "red" : "none");
+    path.setAttribute("stroke-width", debug ? "1" : "0");
     path.setAttribute("pointer-events", "auto");
     svg.appendChild(path);
     document.body.appendChild(svg);
@@ -125,12 +128,12 @@
 
   // ─── Open / Close ──────────────────────────────────────────────────────────
 
-  function openDropdown(parent, submenu, direction) {
+  function openDropdown(parent, submenu, direction, debug) {
     if (activeDropdown && activeDropdown.parent !== parent) {
       closeDropdown(activeDropdown.parent, activeDropdown.submenu);
     }
 
-    activeDropdown = { parent: parent, submenu: submenu, direction: direction };
+    activeDropdown = { parent: parent, submenu: submenu, direction: direction, debug: debug };
     parent.setAttribute("fj-hover-menu-open", "");
     showSubmenu(submenu);
     drawSafeTriangle(parent, submenu, direction);
@@ -236,8 +239,10 @@
       submenu.style.display = "none";
       applyTransitionStyles(submenu, duration, easing, transition, direction);
 
+      var debug = parent.getAttribute("fj-hover-menu-debug") === "true";
+
       parent.addEventListener("mouseenter", function () {
-        openDropdown(parent, submenu, direction);
+        openDropdown(parent, submenu, direction, debug);
       });
     });
   }
