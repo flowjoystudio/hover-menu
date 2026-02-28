@@ -40,6 +40,14 @@ Add the following `<script>` tag to your page's `<head>` or before `</body>`. Re
 | `fj-hover-menu-easing` | Any CSS easing e.g. `ease-in-out` | `ease` | Transition curve |
 | `fj-hover-menu-transition` | `fade`, `slide`, or `fade-slide` | `fade` | Transition style |
 
+### Debug mode (optional)
+
+| Attribute | Value | Description |
+|---|---|---|
+| `fj-hover-menu-debug` | `true` | Renders the safe triangle visibly in red so you can see it working in real time |
+
+Use debug mode during development to verify the triangle is drawing correctly for your menu structure. Remove or set to `false` before going live.
+
 **Transition styles:**
 - `fade` — submenu fades in and out
 - `slide` — submenu slides in from the direction it opens (right menus slide from left, down menus slide from above)
@@ -109,6 +117,7 @@ In the Webflow Designer, open the **Navigator** panel (Cmd/Ctrl + U) to locate t
 | `fj-hover-menu-duration` | e.g. `250` (optional) |
 | `fj-hover-menu-easing` | e.g. `ease-in-out` (optional) |
 | `fj-hover-menu-transition` | `fade`, `slide`, or `fade-slide` (optional) |
+| `fj-hover-menu-debug` | `true` (optional — remove before going live) |
 
 **On the submenu panel** (the Div Block that contains the nested items):
 
