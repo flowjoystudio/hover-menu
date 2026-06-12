@@ -454,6 +454,37 @@
     color: #aaadb3;
   }
 
+  /* ============ Engineering grid utility ============ */
+  .grid-bg {
+    position: relative;
+    --gl-major: rgba(19,19,22,.05);
+    --gl-minor: rgba(19,19,22,.033);
+    --grid-mask: radial-gradient(ellipse 80% 75% at 50% 0%, #000 25%, transparent 75%);
+  }
+  .grid-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, var(--gl-major) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--gl-major) 1px, transparent 1px),
+      linear-gradient(to right, var(--gl-minor) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--gl-minor) 1px, transparent 1px);
+    background-size: 176px 176px, 176px 176px, 44px 44px, 44px 44px;
+    -webkit-mask-image: var(--grid-mask);
+    mask-image: var(--grid-mask);
+  }
+  .grid-bg > .wrap { position: relative; z-index: 1; }
+  .dark.grid-bg {
+    --gl-major: rgba(255,255,255,.06);
+    --gl-minor: rgba(255,255,255,.038);
+    --grid-mask: radial-gradient(ellipse 75% 85% at 50% 12%, #000 20%, transparent 78%);
+  }
+  .cta.grid-bg {
+    --grid-mask: radial-gradient(ellipse 72% 78% at 50% 92%, #000 18%, transparent 72%);
+  }
+
   /* ============ Sections ============ */
   section { padding: 104px 0; }
   .eyebrow {
@@ -1151,7 +1182,7 @@
   </div>
 
   <!-- ============ Dark stats ============ -->
-  <section class="dark" id="results">
+  <section class="dark grid-bg" id="results">
     <div class="wrap">
       <div class="sec-head reveal" style="margin-bottom:0;">
         <div class="eyebrow">Results</div>
@@ -1168,7 +1199,7 @@
   </section>
 
   <!-- ============ Process ============ -->
-  <section id="process">
+  <section class="grid-bg" id="process">
     <div class="wrap">
       <div class="sec-head center reveal">
         <div class="eyebrow">How it works</div>
@@ -1245,7 +1276,7 @@
   </section>
 
   <!-- ============ CTA ============ -->
-  <div class="cta" id="contact">
+  <div class="cta grid-bg" id="contact">
     <div class="wrap reveal">
       <div class="eyebrow">Get started</div>
       <h2>Ready to win more of the right work?</h2>
