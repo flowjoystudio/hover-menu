@@ -218,8 +218,41 @@
   }
   .hero-ctas { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
 
+  /* ============ Pain-point tabs ============ */
+  .hero-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    position: relative;
+    margin-bottom: 16px;
+  }
+  .htab {
+    border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .htab:hover { border-color: #c9cdd2; background: var(--bg-soft); }
+  .htab[aria-selected="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .tab-caption {
+    position: relative;
+    text-align: center;
+    font-size: 14.5px;
+    color: var(--ink-3);
+    max-width: 560px;
+    margin: 0 auto 30px;
+    min-height: 44px;
+  }
+  .tab-caption strong { color: var(--ink); font-weight: 600; }
+
   /* ============ App frame (hero visual) ============ */
-  .frame-zone { padding: 76px 0 0; position: relative; }
+  .frame-zone { padding: 64px 0 0; position: relative; }
   .frame-zone::before {
     content: "";
     position: absolute;
@@ -388,6 +421,13 @@
     margin-right: 7px;
     vertical-align: middle;
   }
+  .af-panel { display: none; }
+  .af-panel.active { display: block; animation: afFade .3s ease; }
+  @keyframes afFade {
+    from { opacity: 0; transform: translateY(5px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .up { color: var(--tag-green); font-weight: 600; }
 
   /* ============ Logo strip ============ */
   .logos {
@@ -715,6 +755,8 @@
     .f-grid { grid-template-columns: 1fr; gap: 32px; }
     .af-table th:nth-child(4), .af-table td:nth-child(4),
     .af-table th:nth-child(5), .af-table td:nth-child(5) { display: none; }
+    .af-toolbar { flex-wrap: wrap; row-gap: 8px; }
+    .af-toolbar .tb-btn { margin-left: 0; }
     .hero-ctas .btn { width: 100%; max-width: 320px; }
     .logo-row { gap: 16px 32px; }
     .logo-row span { font-size: 15px; }
@@ -774,10 +816,26 @@
       </div>
     </div>
 
-    <!-- App-style frame -->
+    <!-- Interactive pain-point frame -->
     <div class="frame-zone">
       <div class="wrap">
-        <div class="app-frame" role="img" aria-label="Illustration of an enquiries dashboard for an engineering firm">
+        <div class="hero-tabs" role="tablist" aria-label="Common problems we fix" id="heroTabs">
+          <button class="htab" role="tab" id="tab-rankings" aria-controls="panel-rankings" aria-selected="true"
+            data-view="rankings"
+            data-caption="Sound familiar? We build pages that rank for exactly what you make — process by process, town by town.">"We don't show up on Google"</button>
+          <button class="htab" role="tab" id="tab-plant" aria-controls="panel-plant" aria-selected="false"
+            data-view="plant"
+            data-caption="Sound familiar? We put your machines, capacities and accreditations front and centre — always up to date.">"Buyers can't see what we can do"</button>
+          <button class="htab" role="tab" id="tab-enquiries" aria-controls="panel-enquiries" aria-selected="false"
+            data-view="enquiries"
+            data-caption="Sound familiar? Specific pages attract specific buyers — bigger jobs, better margins, the right sectors.">"We attract the wrong enquiries"</button>
+          <button class="htab" role="tab" id="tab-edits" aria-controls="panel-edits" aria-selected="false"
+            data-view="edits"
+            data-caption="Sound familiar? We build on Webflow, so your team publishes changes in minutes — no developer required.">"We can't update our own site"</button>
+        </div>
+        <p class="tab-caption" id="tabCaption" aria-live="polite">Sound familiar? We build pages that rank for exactly what you make — process by process, town by town.</p>
+
+        <div class="app-frame">
           <div class="af-top">
             <span class="af-dot"></span><span class="af-dot"></span><span class="af-dot"></span>
             <span class="af-url">midlandprecision.co.uk/admin</span>
@@ -785,73 +843,145 @@
           <div class="af-body">
             <div class="af-side">
               <div class="af-ws"><span class="ws-mark">MP</span> Midland Precision</div>
-              <div class="af-item active"><span class="ico"></span>Enquiries</div>
+              <div class="af-item" data-view="enquiries"><span class="ico"></span>Enquiries</div>
               <div class="af-item"><span class="ico"></span>Quotes</div>
-              <div class="af-item"><span class="ico"></span>Projects</div>
               <div class="af-item"><span class="ico"></span>Customers</div>
               <div class="af-label">Site</div>
-              <div class="af-item"><span class="ico"></span>Capabilities</div>
-              <div class="af-item"><span class="ico"></span>Case studies</div>
-              <div class="af-item"><span class="ico"></span>Plant list</div>
+              <div class="af-item" data-view="plant"><span class="ico"></span>Plant list</div>
+              <div class="af-item" data-view="edits"><span class="ico"></span>Case studies</div>
+              <div class="af-item" data-view="rankings"><span class="ico"></span>Search rankings</div>
             </div>
             <div class="af-main">
-              <div class="af-toolbar">
-                <span class="tb-title">Website enquiries <span class="tb-count">28 this month</span></span>
-                <span class="tb-btn">
-                  <span class="tb-chip">Filter</span>
-                  <span class="tb-chip">Sort</span>
-                  <span class="tb-chip dark">+ New</span>
-                </span>
+
+              <div class="af-panel active" id="panel-rankings" role="tabpanel" aria-labelledby="tab-rankings">
+                <div class="af-toolbar">
+                  <span class="tb-title">Search rankings <span class="tb-count">14 on page one</span></span>
+                  <span class="tb-btn">
+                    <span class="tb-chip">Last 30 days</span>
+                    <span class="tb-chip dark">Export</span>
+                  </span>
+                </div>
+                <table class="af-table">
+                  <thead>
+                    <tr><th>Search term</th><th>Position</th><th>Movement</th><th>Searches / mo</th><th>Landing page</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td class="co"><span class="co-dot" style="background:#dbe7fb"></span>cnc machining coventry</td><td><span class="tag green">#1</span></td><td><span class="up">▲ 9</span></td><td>480</td><td>/cnc-machining</td></tr>
+                    <tr><td class="co"><span class="co-dot" style="background:#dff3e7"></span>5-axis machining midlands</td><td><span class="tag green">#1</span></td><td><span class="up">▲ 14</span></td><td>320</td><td>/5-axis</td></tr>
+                    <tr><td class="co"><span class="co-dot" style="background:#fbeedb"></span>subcontract machining birmingham</td><td><span class="tag green">#2</span></td><td><span class="up">▲ 7</span></td><td>590</td><td>/subcontract</td></tr>
+                    <tr><td class="co"><span class="co-dot" style="background:#ece3fb"></span>as9100 machining uk</td><td><span class="tag green">#2</span></td><td><span class="up">▲ 8</span></td><td>170</td><td>/aerospace</td></tr>
+                    <tr><td class="co"><span class="co-dot" style="background:#dbe7fb"></span>precision turning nottingham</td><td><span class="tag green">#3</span></td><td><span class="up">▲ 5</span></td><td>260</td><td>/turning</td></tr>
+                    <tr><td class="co"><span class="co-dot" style="background:#dff3e7"></span>prototype machining derby</td><td><span class="tag green">#3</span></td><td><span class="up">▲ 12</span></td><td>140</td><td>/prototyping</td></tr>
+                  </tbody>
+                </table>
               </div>
-              <table class="af-table">
-                <thead>
-                  <tr><th>Company</th><th>Requirement</th><th>Status</th><th>Est. value</th><th>Owner</th></tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="co"><span class="co-dot" style="background:#dbe7fb"></span>Trent Hydraulics</td>
-                    <td>5-axis CNC, batch of 400</td>
-                    <td><span class="tag green">Quoted</span></td>
-                    <td>£48,200</td>
-                    <td><span class="avtr" style="background:#7c9ed9">SB</span>S. Brooks</td>
-                  </tr>
-                  <tr>
-                    <td class="co"><span class="co-dot" style="background:#dff3e7"></span>Caldwell Fabrication</td>
-                    <td>Pressure vessel, PD5500</td>
-                    <td><span class="tag blue">New enquiry</span></td>
-                    <td>£112,000</td>
-                    <td><span class="avtr" style="background:#b08ad6">RK</span>R. Kaur</td>
-                  </tr>
-                  <tr>
-                    <td class="co"><span class="co-dot" style="background:#fbeedb"></span>Apex Tooling</td>
-                    <td>Jig &amp; fixture design</td>
-                    <td><span class="tag amber">In review</span></td>
-                    <td>£23,400</td>
-                    <td><span class="avtr" style="background:#7c9ed9">SB</span>S. Brooks</td>
-                  </tr>
-                  <tr>
-                    <td class="co"><span class="co-dot" style="background:#ece3fb"></span>Vector Aerospace</td>
-                    <td>AS9100 machining partner</td>
-                    <td><span class="tag purple">Site visit</span></td>
-                    <td>£260,000</td>
-                    <td><span class="avtr" style="background:#d98a8a">JM</span>J. Mistry</td>
-                  </tr>
-                  <tr>
-                    <td class="co"><span class="co-dot" style="background:#dbe7fb"></span>Forge &amp; Co</td>
-                    <td>Open-die forging, EN24</td>
-                    <td><span class="tag green">Quoted</span></td>
-                    <td>£31,750</td>
-                    <td><span class="avtr" style="background:#b08ad6">RK</span>R. Kaur</td>
-                  </tr>
-                  <tr>
-                    <td class="co"><span class="co-dot" style="background:#dff3e7"></span>Derwent Castings</td>
-                    <td>Investment casting RFQ</td>
-                    <td><span class="tag blue">New enquiry</span></td>
-                    <td>£54,900</td>
-                    <td><span class="avtr" style="background:#d98a8a">JM</span>J. Mistry</td>
-                  </tr>
-                </tbody>
-              </table>
+
+              <div class="af-panel" id="panel-plant" role="tabpanel" aria-labelledby="tab-plant">
+                <div class="af-toolbar">
+                  <span class="tb-title">Plant list <span class="tb-count">32 machines</span></span>
+                  <span class="tb-btn">
+                    <span class="tag green">ISO 9001</span>
+                    <span class="tag blue">AS9100</span>
+                    <span class="tag purple">CE marked</span>
+                  </span>
+                </div>
+                <table class="af-table">
+                  <thead>
+                    <tr><th>Machine</th><th>Capacity</th><th>Type</th><th>Status</th><th>Added</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td class="co"><span class="co-dot" style="background:#dbe7fb"></span>DMG MORI NTX 2000</td><td>⌀660 × 1,540 mm</td><td>5-axis mill-turn</td><td><span class="tag green">On plant list</span></td><td>2026</td></tr>
+                    <tr><td class="co"><span class="co-dot" style="background:#dff3e7"></span>Mazak Integrex i-400</td><td>⌀658 × 1,011 mm</td><td>Multi-tasking</td><td><span class="tag green">On plant list</span></td><td>2025</td></tr>
+                    <tr><td class="co"><span class="co-dot" style="background:#fbeedb"></span>Hurco VMX 42 SRTi</td><td>1,067 × 610 mm</td><td>5-axis VMC</td><td><span class="tag green">On plant list</span></td><td>2024</td></tr>
+                    <tr><td class="co"><span class="co-dot" style="background:#ece3fb"></span>Citizen L32-XII</td><td>⌀32 mm bar</td><td>Sliding head</td><td><span class="tag amber">Being installed</span></td><td>2026</td></tr>
+                    <tr><td class="co"><span class="co-dot" style="background:#dbe7fb"></span>Mitutoyo Crysta-Apex</td><td>700 × 1,000 mm</td><td>CMM inspection</td><td><span class="tag blue">Quality lab</span></td><td>2023</td></tr>
+                    <tr><td class="co"><span class="co-dot" style="background:#dff3e7"></span>XYZ RLX 555 lathe</td><td>⌀555 × 1,250 mm</td><td>Turning</td><td><span class="tag green">On plant list</span></td><td>2022</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="af-panel" id="panel-enquiries" role="tabpanel" aria-labelledby="tab-enquiries">
+                <div class="af-toolbar">
+                  <span class="tb-title">Website enquiries <span class="tb-count">28 this month</span></span>
+                  <span class="tb-btn">
+                    <span class="tb-chip">Filter</span>
+                    <span class="tb-chip">Sort</span>
+                    <span class="tb-chip dark">+ New</span>
+                  </span>
+                </div>
+                <table class="af-table">
+                  <thead>
+                    <tr><th>Company</th><th>Requirement</th><th>Status</th><th>Est. value</th><th>Owner</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="co"><span class="co-dot" style="background:#dbe7fb"></span>Trent Hydraulics</td>
+                      <td>5-axis CNC, batch of 400</td>
+                      <td><span class="tag green">Quoted</span></td>
+                      <td>£48,200</td>
+                      <td><span class="avtr" style="background:#7c9ed9">SB</span>S. Brooks</td>
+                    </tr>
+                    <tr>
+                      <td class="co"><span class="co-dot" style="background:#dff3e7"></span>Caldwell Fabrication</td>
+                      <td>Pressure vessel, PD5500</td>
+                      <td><span class="tag blue">New enquiry</span></td>
+                      <td>£112,000</td>
+                      <td><span class="avtr" style="background:#b08ad6">RK</span>R. Kaur</td>
+                    </tr>
+                    <tr>
+                      <td class="co"><span class="co-dot" style="background:#fbeedb"></span>Apex Tooling</td>
+                      <td>Jig &amp; fixture design</td>
+                      <td><span class="tag amber">In review</span></td>
+                      <td>£23,400</td>
+                      <td><span class="avtr" style="background:#7c9ed9">SB</span>S. Brooks</td>
+                    </tr>
+                    <tr>
+                      <td class="co"><span class="co-dot" style="background:#ece3fb"></span>Vector Aerospace</td>
+                      <td>AS9100 machining partner</td>
+                      <td><span class="tag purple">Site visit</span></td>
+                      <td>£260,000</td>
+                      <td><span class="avtr" style="background:#d98a8a">JM</span>J. Mistry</td>
+                    </tr>
+                    <tr>
+                      <td class="co"><span class="co-dot" style="background:#dbe7fb"></span>Forge &amp; Co</td>
+                      <td>Open-die forging, EN24</td>
+                      <td><span class="tag green">Quoted</span></td>
+                      <td>£31,750</td>
+                      <td><span class="avtr" style="background:#b08ad6">RK</span>R. Kaur</td>
+                    </tr>
+                    <tr>
+                      <td class="co"><span class="co-dot" style="background:#dff3e7"></span>Derwent Castings</td>
+                      <td>Investment casting RFQ</td>
+                      <td><span class="tag blue">New enquiry</span></td>
+                      <td>£54,900</td>
+                      <td><span class="avtr" style="background:#d98a8a">JM</span>J. Mistry</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="af-panel" id="panel-edits" role="tabpanel" aria-labelledby="tab-edits">
+                <div class="af-toolbar">
+                  <span class="tb-title">Recent site edits <span class="tb-count">by your team</span></span>
+                  <span class="tb-btn">
+                    <span class="tb-chip dark">Open Webflow editor</span>
+                  </span>
+                </div>
+                <table class="af-table">
+                  <thead>
+                    <tr><th>Change</th><th>Status</th><th>Edited by</th><th>When</th><th>Page</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td class="co"><span class="co-dot" style="background:#dbe7fb"></span>Added DMG MORI NTX to plant list</td><td><span class="tag green">Published</span></td><td><span class="avtr" style="background:#7c9ed9">SB</span>Sarah B.</td><td>2 min ago</td><td>/plant-list</td></tr>
+                    <tr><td class="co"><span class="co-dot" style="background:#dff3e7"></span>New case study: aerospace bracket run</td><td><span class="tag green">Published</span></td><td><span class="avtr" style="background:#d98a8a">DH</span>Dave H.</td><td>Yesterday</td><td>/case-studies</td></tr>
+                    <tr><td class="co"><span class="co-dot" style="background:#fbeedb"></span>Updated lead times on homepage</td><td><span class="tag green">Published</span></td><td><span class="avtr" style="background:#7c9ed9">SB</span>Sarah B.</td><td>Tuesday</td><td>/</td></tr>
+                    <tr><td class="co"><span class="co-dot" style="background:#ece3fb"></span>New vacancy: CNC setter / operator</td><td><span class="tag amber">Draft</span></td><td><span class="avtr" style="background:#b08ad6">PK</span>Priya K.</td><td>Last week</td><td>/careers</td></tr>
+                    <tr><td class="co"><span class="co-dot" style="background:#dbe7fb"></span>Uploaded ISO 9001:2015 certificate</td><td><span class="tag green">Published</span></td><td><span class="avtr" style="background:#d98a8a">DH</span>Dave H.</td><td>Last week</td><td>/quality</td></tr>
+                    <tr><td class="co"><span class="co-dot" style="background:#dff3e7"></span>Updated capacity table, turning</td><td><span class="tag green">Published</span></td><td><span class="avtr" style="background:#7c9ed9">SB</span>Sarah B.</td><td>2 weeks ago</td><td>/turning</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
             </div>
           </div>
         </div>
@@ -1193,6 +1323,47 @@
       menuBtn.setAttribute('aria-expanded', 'false');
     }
   });
+
+  // Pain-point tab switcher
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.htab'));
+    var panels = Array.prototype.slice.call(document.querySelectorAll('.af-panel'));
+    var caption = document.getElementById('tabCaption');
+    var sideItems = Array.prototype.slice.call(document.querySelectorAll('.af-item[data-view]'));
+    var current = 0, timer = null;
+
+    function select(i, fromUser) {
+      current = i;
+      var view = tabs[i].getAttribute('data-view');
+      tabs.forEach(function (t, j) {
+        t.setAttribute('aria-selected', j === i ? 'true' : 'false');
+        t.tabIndex = j === i ? 0 : -1;
+      });
+      panels.forEach(function (p) {
+        p.classList.toggle('active', p.id === 'panel-' + view);
+      });
+      sideItems.forEach(function (s) {
+        s.classList.toggle('active', s.getAttribute('data-view') === view);
+      });
+      caption.textContent = tabs[i].getAttribute('data-caption');
+      if (fromUser && timer) { clearInterval(timer); timer = null; }
+    }
+
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { select(i, true); });
+    });
+    document.getElementById('heroTabs').addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      var next = (current + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length;
+      select(next, true);
+      tabs[next].focus();
+    });
+
+    select(0, false);
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      timer = setInterval(function () { select((current + 1) % tabs.length, false); }, 4500);
+    }
+  })();
 
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) {
