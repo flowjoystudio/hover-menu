@@ -650,7 +650,7 @@
   /* ============ Process ============ */
   .steps {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 0;
     border: 1px solid var(--line-soft);
     border-radius: 16px;
@@ -658,7 +658,7 @@
     background: #fff;
   }
   .step {
-    padding: 32px 28px;
+    padding: 28px 22px;
     border-right: 1px solid var(--line-soft);
   }
   .step:last-child { border-right: none; }
@@ -736,8 +736,9 @@
     .bento-3 { grid-template-columns: 1fr; }
     .cases { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
     .steps { grid-template-columns: 1fr 1fr; }
-    .step:nth-child(2) { border-right: none; }
-    .step:nth-child(-n+2) { border-bottom: 1px solid var(--line-soft); }
+    .step { border-right: none; border-bottom: 1px solid var(--line-soft); }
+    .step:nth-child(odd):not(:last-child) { border-right: 1px solid var(--line-soft); }
+    .step:last-child { grid-column: 1 / -1; border-bottom: none; }
     .dark-grid { grid-template-columns: 1fr 1fr; }
     .f-grid { grid-template-columns: 1fr 1fr; }
     .af-body { grid-template-columns: 1fr; }
@@ -750,7 +751,8 @@
     .bento { grid-template-columns: 1fr; }
     .steps { grid-template-columns: 1fr; }
     .step { border-right: none; border-bottom: 1px solid var(--line-soft); }
-    .step:last-child { border-bottom: none; }
+    .step:nth-child(odd):not(:last-child) { border-right: none; }
+    .step:last-child { grid-column: auto; border-bottom: none; }
     .dark-grid { grid-template-columns: 1fr; }
     .f-grid { grid-template-columns: 1fr; gap: 32px; }
     .af-table th:nth-child(4), .af-table td:nth-child(4),
@@ -1171,7 +1173,7 @@
       <div class="sec-head center reveal">
         <div class="eyebrow">How it works</div>
         <h2>A process as precise as your workshop.</h2>
-        <p class="lede">Four stages, fixed pricing, clear timelines. You'll always know exactly where your project is.</p>
+        <p class="lede">Five stages, fixed pricing, clear timelines. You'll always know exactly where your project is.</p>
       </div>
       <div class="steps reveal">
         <div class="step">
@@ -1180,17 +1182,22 @@
           <p>We come to you, walk the shop floor, and learn what you make, who buys it and why they choose you.</p>
         </div>
         <div class="step">
-          <div class="s-num">02 · DESIGN</div>
+          <div class="s-num">02 · POSITION</div>
+          <h3>Messaging &amp; positioning</h3>
+          <p>We define who you're for, the work you want more of, and the words that win it — before anything is designed.</p>
+        </div>
+        <div class="step">
+          <div class="s-num">03 · DESIGN</div>
           <h3>Design &amp; sign-off</h3>
-          <p>Full visual designs of every key page before a line of code is written. You approve everything first.</p>
+          <p>Full visual designs of every key page, built on that positioning. You approve everything first.</p>
         </div>
         <div class="step">
-          <div class="s-num">03 · BUILD</div>
+          <div class="s-num">04 · BUILD</div>
           <h3>Build &amp; test</h3>
-          <p>Hand-coded, tested on real devices, checked against accessibility and performance standards.</p>
+          <p>Built on Webflow, tested on real devices, checked against accessibility and performance standards.</p>
         </div>
         <div class="step">
-          <div class="s-num">04 · LAUNCH</div>
+          <div class="s-num">05 · LAUNCH</div>
           <h3>Launch &amp; grow</h3>
           <p>We launch, train your team and hand over your site handbook — then measure, refine and grow from there.</p>
         </div>
